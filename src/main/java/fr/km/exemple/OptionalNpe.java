@@ -4,24 +4,31 @@ import jdk.nashorn.internal.objects.annotations.Setter;
 
 import java.util.Optional;
 
+/**
+ * using Optional to evict NullPointerException
+ */
 public class OptionalNpe {
 
     public static void main(String[] args) {
         Customer customer = new Customer();
-//        double discount= customer.getProfile().getGoldCard().getDiscount();
+          // instead this
+    //    double discount0= customer.getProfile().getGoldCard().getDiscount();
 
-        //step1
-//        double discount = customer.getProfileOpt()
-//                .map(Profile::getGoldCard)
-//                .map(GoldCard::getDiscount)
-//                .orElse(0d);
-
-        // step3
+        // solution to evict NPE Exception
         double discount = customer.getProfileOpt()
                 .flatMap(Profile::getGoldCardOpt)
                 .map(GoldCard::getDiscount)
                 .orElse(0d);
         System.out.println("discount:  "+discount);
+
+
+        // intermediate solution
+//        double discount2 = customer.getProfileOpt()
+//                .map(Profile::getGoldCard)
+//                .map(GoldCard::getDiscount)
+//                .orElse(0d);
+
+
     }
 }
 
