@@ -1,5 +1,10 @@
 package fr.km.exemple;
 
+/**
+ * to be able to pass any function who don't have any parameter and return no thing
+ * use a Runnable interface like mesureTime method
+ */
+
 public class WrapAround {
 
 

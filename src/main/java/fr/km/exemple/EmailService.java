@@ -5,6 +5,9 @@ import lombok.ToString;
 import java.util.Random;
 import java.util.function.Consumer;
 
+/**
+ * use Consumer <Email> fillEmail to extract the variable part outside to the client part
+ */
 public class EmailService {
 
     // solution 3 with consumer

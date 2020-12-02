@@ -9,6 +9,36 @@ import static java.util.Optional.*;
 
 public class DiscountService {
 
+    public String getDiscountLine(Customer customer){
+        return customer.getMemberCard()
+                .flatMap(d -> getApplicablePercentage(d))
+                .map(p -> "Discount: "+p)
+                .orElse("");
+
+    }
+
+    private Optional<Object> getApplicablePercentage(MemberCard card) {
+        // this is a NPE here
+        if (card.getFidelity() >= 100){
+            return of(5);
+        }
+        if (card.getFidelity() >= 50){
+            return of(3);
+        }
+        // replace null return by Optional empty
+        return empty();
+    }
+
+
+    public static void main(String[] args) {
+        DiscountService service = new DiscountService();
+        System.out.println(">" + service.getDiscountLine(new Customer(new MemberCard(60))));
+        System.out.println(">" + service.getDiscountLine(new Customer(new MemberCard(10))));
+        // NPE case
+        System.out.println(">" + service.getDiscountLine(new Customer()));
+    }
+
+
     /**
      *
      public String getDiscountLine(Customer customer){
@@ -70,34 +100,6 @@ class MemberCard{
      *
      */
 
-
-    public String getDiscountLine(Customer customer){
-        return customer.getMemberCard()
-                .flatMap(d -> getApplicablePercentage(d))
-                .map(p -> "Discount: "+p)
-                .orElse("");
-
-    }
-
-    private Optional<Object> getApplicablePercentage(MemberCard card) {
-        // this is a NPE here
-        if (card.getFidelity() >= 100){
-            return of(5);
-        }
-        if (card.getFidelity() >= 50){
-            return of(3);
-        }
-        // replace null return by Optional empty
-        return empty();
-    }
-
-    public static void main(String[] args) {
-        DiscountService service = new DiscountService();
-        System.out.println(">" + service.getDiscountLine(new Customer(new MemberCard(60))));
-        System.out.println(">" + service.getDiscountLine(new Customer(new MemberCard(120))));
-        System.out.println(">" + service.getDiscountLine(new Customer(new MemberCard(10))));
-        System.out.println(">" + service.getDiscountLine(new Customer()));
-    }
 }
 
 class Customer {

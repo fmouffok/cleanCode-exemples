@@ -8,48 +8,50 @@ public interface UserRepo {
     List<User> findAll();
 }
 
-
+/**
+ * refactoring writing simply user by using mapper
+ */
 class UserFacade{
     private UserRepo repo;
     private UserMapper mapper;
 
-    // exemple code
+
     public List<UserDto> getUsers(){
-        final List<User> users = repo.findAll();
-        List<UserDto> userDtos = new ArrayList<>();
-        for (User user : users){
-            UserDto dto = new UserDto();
-            dto.setFirstName(user.getFirstName());
-            dto.setLastName(user.getLastName());
-            dto.setUsernemae(user.getUsernemae());
-            dto.setFullName(user.getFirstName() + " "+ user.getLastName().toUpperCase());
-            dto.setActive(user.getDeactivatedDate() != null);
-            userDtos.add(dto);
-        }
-    return userDtos;
-    }
-
-    public List<UserDto> getUsers1(){
-        final List<User> users = repo.findAll();
-        List<UserDto> userDtos = new ArrayList<>();
-        return users.stream().map(user -> {
-            UserDto dto = new UserDto();
-            dto.setFirstName(user.getFirstName());
-            dto.setLastName(user.getLastName());
-            dto.setUsernemae(user.getUsernemae());
-            dto.setFullName(user.getFirstName() + " "+ user.getLastName().toUpperCase());
-            dto.setActive(user.getDeactivatedDate() == null);
-            return dto;
-        }).collect(Collectors.toList());
-    }
-
-    public List<UserDto> getUsers2(){
         final List<User> users = repo.findAll();
         List<UserDto> userDtos = new ArrayList<>();
         return users.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
 
+    // exemple code
+//    public List<UserDto> getUsers0(){
+//        final List<User> users = repo.findAll();
+//        List<UserDto> userDtos = new ArrayList<>();
+//        for (User user : users){
+//            UserDto dto = new UserDto();
+//            dto.setFirstName(user.getFirstName());
+//            dto.setLastName(user.getLastName());
+//            dto.setUsernemae(user.getUsernemae());
+//            dto.setFullName(user.getFirstName() + " "+ user.getLastName().toUpperCase());
+//            dto.setActive(user.getDeactivatedDate() != null);
+//            userDtos.add(dto);
+//        }
+//    return userDtos;
+//    }
+//
+//    public List<UserDto> getUsers1(){
+//        final List<User> users = repo.findAll();
+//        List<UserDto> userDtos = new ArrayList<>();
+//        return users.stream().map(user -> {
+//            UserDto dto = new UserDto();
+//            dto.setFirstName(user.getFirstName());
+//            dto.setLastName(user.getLastName());
+//            dto.setUsernemae(user.getUsernemae());
+//            dto.setFullName(user.getFirstName() + " "+ user.getLastName().toUpperCase());
+//            dto.setActive(user.getDeactivatedDate() == null);
+//            return dto;
+//        }).collect(Collectors.toList());
+//    }
 
 }
 

@@ -12,6 +12,19 @@ import static java.util.stream.Collectors.summingInt;
 public class ProductService {
 
     private ProductRepo productRepo;
+
+    // refactoring
+    public List<Product> getFrequentOrderedProducts1(List<Order> orders){
+        List<Integer> hiddenProductIds = productRepo.getHiddenproductIds();
+        Predicate<Product> productIsNotHidden = p -> !hiddenProductIds.contains(p.getId());
+        return getFrequentProductOverLastYear(orders)
+                .filter(Product::isNotDeleted)
+                .filter(productIsNotHidden)
+                .collect(Collectors.toList());
+
+    }
+
+    // initial case
     public List<Product> getFrequentOrderedProducts(List<Order> orders){
         return orders.stream()
                 .filter(o -> o.getCreationDate().isAfter(LocalDate.now().minusYears(1)))
@@ -24,16 +37,6 @@ public class ProductService {
                 .filter(p -> !p.isDeleted())
                 .filter(p -> productRepo.getHiddenproductIds().contains(p.getId()))
                 .collect(Collectors.toList());
-    }
-
-    public List<Product> getFrequentOrderedProducts1(List<Order> orders){
-        List<Integer> hiddenProductIds = productRepo.getHiddenproductIds();
-        Predicate<Product> productIsNotHidden = p -> !hiddenProductIds.contains(p.getId());
-        return getFrequentProductOverLastYear(orders)
-                .filter(Product::isNotDeleted)
-                .filter(productIsNotHidden)
-                .collect(Collectors.toList());
-
     }
 
     private Stream<Product> getFrequentProductOverLastYear(List<Order> orders) {
@@ -218,6 +221,10 @@ class Order {
 
     public boolean hasDelivredAfter(Date date) {
         return true;
+    }
+
+    public boolean isNotDelivered() {
+        return !delivred;
     }
 }
 

@@ -7,32 +7,6 @@ import java.util.stream.Collectors;
 
 public class Exercise {
 
-    public static void main(String[] args) {
-
-    }
-
-}
-
-class Exo1{
-
-    public void activeLines(Order order){
-
-        order.getOrderLines().stream()
-                .forEach(orderLine -> orderLine.activate(getCurrentUser()));
-
-        // initial
-//        order.getOrderLines().stream()
-//                .forEach(orderLine -> { orderLine.activate(getCurrentUser());});
-
-    }
-
-    private static User getCurrentUser(){
-        return new User();
-    }
-}
-
-class Exer2 {
-
     private CustomerMapper mapper;
     List<CustomerDto> getIdsOfCustomerDtoOfType(List<Customer> allCustomer, Customer.Type type){
         final Predicate<fr.km.exemple.Customer> customerPredicate = customer -> customer.getType() == type;
@@ -85,8 +59,8 @@ class Exer2 {
 //                })
 //                .collect(Collectors.toList());
 //    }
-
 }
+
 
 class CustomerDto{
     private Integer id;
